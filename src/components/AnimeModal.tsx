@@ -60,7 +60,7 @@ export function AnimeModal({ isOpen, onClose, anime }: Props) {
               <Flex gap={2} direction="row" flexWrap="wrap">
                 {anime.characters.nodes.map((char) => (
                   <Flex key={char.id} gap={1} direction="column" width="60px">
-                    <Box w="60px" h="60px">
+                    <Box w="60px" h="60px" bgColor="whiteAlpha.500">
                       <Image
                         w="100%"
                         h="100%"
