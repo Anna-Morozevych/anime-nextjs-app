@@ -90,7 +90,7 @@ export default function Pagination({ pageInfo }: Props) {
           <Flex gap={1} flexWrap="wrap">
             {pagination(
               pageInfo.currentPage,
-              Math.round(pageInfo.total / pageInfo.perPage)
+              100
             ).map((el, i) => (
               <Button
                 key={i}
@@ -108,7 +108,7 @@ export default function Pagination({ pageInfo }: Props) {
           </Flex>
 
           {/* Arrow right */}
-          <Button size="xs" onClick={handlePageChangeNext} disabled={!pageInfo.hasNextPage}>
+          <Button size="xs" onClick={handlePageChangeNext} disabled={pageInfo.currentPage === 100}>
             <FaChevronRight />
           </Button>
         </Flex>

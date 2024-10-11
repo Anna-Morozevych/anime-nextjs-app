@@ -35,7 +35,7 @@ export default function AnimeItem({ anime }: Props) {
         onClick={onOpen}
       >
         <Card h="100%">
-          {/* Carf image */}
+          {/* Card image */}
           <Box w="100%" h={{ base: "30rem", md: "25rem" }} overflow="hidden">
             <Image
               w="100%"
