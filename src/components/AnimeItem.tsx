@@ -53,7 +53,7 @@ export default function AnimeItem({ anime }: Props) {
           {/* Card name */}
           <CardBody p={2}>
             <CardHeader color="blue.100" p={0}>
-              {anime.title.english ? anime.title.english : anime.title.native}
+              {anime.title.english || anime.title.native}
             </CardHeader>
           </CardBody>
 

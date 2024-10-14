@@ -17,5 +17,5 @@ export function middleware(request: NextRequest) {
 
 // Protected page
 export const config = {
-  matcher: ["/info"]
+  matcher: ["/information-page"]
 }

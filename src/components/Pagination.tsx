@@ -2,6 +2,7 @@
 import { PageInfo } from "@/types";
 import { Button, Flex } from "@chakra-ui/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -52,46 +53,69 @@ export default function Pagination({ pageInfo }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const search = searchParams.get("page");
+  const MAX_PAGES = 100;
 
-  // Go to prev page handler
-  const handlePageChangePrev = () => {
-    router.push(
-      `/info?page=${pageInfo.currentPage - 1}&per_page=${pageInfo.perPage}`
-    );
-  };
+  const paginationNumbers = useMemo(
+    () => pagination(pageInfo.currentPage, MAX_PAGES),
+    [pageInfo.currentPage]
+  );
 
-  // Go to next page handler
-  const handlePageChangeNext = () => {
-    router.push(
-      `/info?page=${pageInfo.currentPage + 1}&per_page=${pageInfo.perPage}`
-    );
+  // Arrows handler
+  const handlePageChange = (direction: string) => {
+    switch (direction) {
+      case "next":
+        router.push(
+          `/information-page?page=${pageInfo.currentPage + 1}&per_page=${
+            pageInfo.perPage
+          }`
+        );
+
+        router.refresh();
+        break;
+
+      case "prev":
+        router.push(
+          `/information-page?page=${pageInfo.currentPage - 1}&per_page=${
+            pageInfo.perPage
+          }`
+        );
+
+        router.refresh();
+        break;
+
+      default:
+        break;
+    }
   };
 
   // Go to page with number handler
   const handlePageChangeNum = (pageNum: number | string) => {
     if (pageNum === "...") {
-      handlePageChangeNext();
       return;
     }
 
-    router.push(`/info?page=${pageNum}&per_page=${pageInfo.perPage}`);
+    router.push(
+      `/information-page?page=${pageNum}&per_page=${pageInfo.perPage}`
+    );
+    router.refresh();
   };
 
   return (
     <div>
       {pageInfo.total > 0 && (
-        <Flex className="pagination" gap={2} justifyContent="center">
+        <Flex gap={2} justifyContent="center">
           {/* Arrow left */}
-          <Button size="xs" onClick={handlePageChangePrev} disabled={pageInfo.currentPage === 1}>
+          <Button
+            size="xs"
+            onClick={() => handlePageChange("prev")}
+            disabled={pageInfo.currentPage === 1}
+          >
             <FaChevronLeft />
           </Button>
 
-        {/* Padination numbers and dots */}
+          {/* Padination numbers and dots */}
           <Flex gap={1} flexWrap="wrap">
-            {pagination(
-              pageInfo.currentPage,
-              100
-            ).map((el, i) => (
+            {paginationNumbers.map((el, i) => (
               <Button
                 key={i}
                 size="xs"
@@ -108,7 +132,11 @@ export default function Pagination({ pageInfo }: Props) {
           </Flex>
 
           {/* Arrow right */}
-          <Button size="xs" onClick={handlePageChangeNext} disabled={pageInfo.currentPage === 100}>
+          <Button
+            size="xs"
+            onClick={() => handlePageChange("next")}
+            disabled={pageInfo.currentPage === MAX_PAGES}
+          >
             <FaChevronRight />
           </Button>
         </Flex>

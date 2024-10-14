@@ -16,6 +16,7 @@ import {
   Stack,
   Divider,
   Tag,
+  Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
@@ -50,7 +51,7 @@ export function AnimeModal({ isOpen, onClose, anime }: Props) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {anime.title.english ? anime.title.english : anime.title.native}
+            {anime.title.english || anime.title.native}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -70,7 +71,7 @@ export function AnimeModal({ isOpen, onClose, anime }: Props) {
                         alt={char.name.full}
                       />
                     </Box>
-                    <span className="text-xs">{char.name.full}</span>
+                    <Text fontSize="12px">{char.name.full}</Text>
                   </Flex>
                 ))}
               </Flex>
@@ -94,7 +95,7 @@ export function AnimeModal({ isOpen, onClose, anime }: Props) {
                         alt={el.name.full}
                       />
                     </Box>
-                    <span className="text-xs">{el.name.full}</span>
+                    <Text fontSize="12px">{el.name.full}</Text>
                   </Flex>
                 ))}
               </Flex>

@@ -41,7 +41,7 @@ export default function Navbar({ user }: Props) {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[1000]">
+    <Box position="fixed" top={0} left={0} right={0} zIndex={1000}>
       <Box
         sx={{
           p: 4,
@@ -86,7 +86,7 @@ export default function Navbar({ user }: Props) {
                   justifyContent="center"
                   flexDirection="column"
                 >
-                  <span className=""> Hi, {user?.userName}</span>
+                  <span> Hi, {user?.userName}</span>
                   {/* User menu job title */}
                   <span>{user?.jobTitle}</span>
                 </Flex>
@@ -118,6 +118,6 @@ export default function Navbar({ user }: Props) {
       {isOpenForm && (
         <UserInfoForm user={user} isOpen={isOpenForm} onClose={closeForm} />
       )}
-    </header>
+    </Box>
   );
 }
