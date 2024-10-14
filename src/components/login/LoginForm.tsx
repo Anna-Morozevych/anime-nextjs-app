@@ -49,6 +49,7 @@ export default function LoginForm() {
     // Set user info
     setMyCookie("user", JSON.stringify({ userName, jobTitle }));
     router.push("/information-page");
+
   };
 
   return (

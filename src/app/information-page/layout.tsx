@@ -27,7 +27,7 @@ export default function InfoLayout({ children }: Props) {
 
   return (
     <div>
-      <Navbar user={user} />
+      <Navbar userData={user} />
       <Box pt="80px" px={4} pb={10}>
         {children}
       </Box>

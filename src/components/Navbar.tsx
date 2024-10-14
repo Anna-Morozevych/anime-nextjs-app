@@ -13,21 +13,22 @@ import {
   PopoverHeader,
   PopoverTrigger,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
 import { User } from "@/types";
 import UserInfoForm from "./UserInfoForm";
-import { deleteCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 
 type Props = {
-  user: User;
+  userData: User;
 };
 
-export default function Navbar({ user }: Props) {
+export default function Navbar({ userData }: Props) {
   const router = useRouter();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [user, setUser] = useState<User>();
   const [isOpenForm, setIsOpenForm] = useState(false);
 
   const openMenu = () => setIsOpenMenu(true);
@@ -39,6 +40,17 @@ export default function Navbar({ user }: Props) {
     deleteCookie("user");
     router.push("/");
   };
+
+  // set user when component render or change
+  useEffect(() => {
+    const cookieUser = getCookie('user');
+    if (cookieUser) {
+      setUser(JSON.parse(cookieUser))
+    }
+
+  setUser(userData);
+
+  }, [userData, router])
 
   return (
     <Box position="fixed" top={0} left={0} right={0} zIndex={1000}>
@@ -115,7 +127,7 @@ export default function Navbar({ user }: Props) {
       <Divider />
 
       {/* Change info form */}
-      {isOpenForm && (
+      {(isOpenForm && user) && (
         <UserInfoForm user={user} isOpen={isOpenForm} onClose={closeForm} />
       )}
     </Box>
