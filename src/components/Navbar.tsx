@@ -21,11 +21,7 @@ import UserInfoForm from "./UserInfoForm";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 
-type Props = {
-  userData: User;
-};
-
-export default function Navbar({ userData }: Props) {
+export default function Navbar() {
   const router = useRouter();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [user, setUser] = useState<User>();
@@ -36,21 +32,24 @@ export default function Navbar({ userData }: Props) {
   const openForm = () => setIsOpenForm(true);
   const closeForm = () => setIsOpenForm(false);
 
+  const updateUser = (newData: User) => {
+    setUser(newData);
+  }
+
   const logOutHandler = () => {
     deleteCookie("user");
     router.push("/");
   };
 
-  // set user when component render or change
+  // set user when component render
   useEffect(() => {
     const cookieUser = getCookie('user');
+
     if (cookieUser) {
       setUser(JSON.parse(cookieUser))
     }
 
-  setUser(userData);
-
-  }, [userData, router])
+  }, [])
 
   return (
     <Box position="fixed" top={0} left={0} right={0} zIndex={1000}>
@@ -128,7 +127,7 @@ export default function Navbar({ userData }: Props) {
 
       {/* Change info form */}
       {(isOpenForm && user) && (
-        <UserInfoForm user={user} isOpen={isOpenForm} onClose={closeForm} />
+        <UserInfoForm user={user} isOpen={isOpenForm} onClose={closeForm} updateUser={updateUser} />
       )}
     </Box>
   );

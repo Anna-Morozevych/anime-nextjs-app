@@ -17,17 +17,16 @@ import {
 import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { MdOutlineWork } from "react-icons/md";
-import { useRouter } from "next/navigation";
 import Loader from "./Loader";
 
 type Props = {
   user: User;
   isOpen: boolean;
   onClose: () => void;
+  updateUser: (data: User) => void
 };
 
-export default function UserInfoForm({ user, isOpen, onClose }: Props) {
-  const router = useRouter();
+export default function UserInfoForm({ user, isOpen, onClose, updateUser }: Props) {
   const [userName, setUserName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [isLoading, seIsLoading] = useState(false);
@@ -47,8 +46,11 @@ export default function UserInfoForm({ user, isOpen, onClose }: Props) {
     setTimeout(() => {
       seIsLoading(false);
       onClose();
-      router.refresh();
-    }, 2000);
+      updateUser({
+        userName,
+        jobTitle
+      })
+    }, 1000);
   };
 
   return (
